@@ -6,18 +6,21 @@ class MovieTabularInline(admin.TabularInline):
     model = MovieComment
     extra = 0
 
+
+
 class Movie_Admin(admin.ModelAdmin):
-    list_display = ['name','published']
+    list_display = ['name','published', 'show_image']
     list_filter = ['published']
     search_fields = ['name','actor','director','film_company']
     prepopulated_fields = {'slug': ['name']}
     fieldsets = (
-        (None , {'fields':['name','slug','description','published']}),
-        ('Category',{'fields':['category','actor','director','film_company']})
+        (None , {'fields':['name','slug','description','published','image']}),
+        ('Category',{'fields':['category','actor','director','film_company','image_preview']})
     )
     inlines = [ MovieTabularInline ]
 
 
+admin.site.register(MovieImage)
 admin.site.register(Category)
 admin.site.register(Film_company)
 admin.site.register(Director)

@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.db.models.base import Model
+from django.utils.html import format_html
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -40,6 +41,12 @@ class Actor(models.Model):
     def __str__(self):
         return self.name
 
+class MovieImage(models.Model):
+    name = models.CharField(max_length=100)
+    image_preview = models.ImageField(upload_to='preview')
+
+    def __str__(self):
+        return self.name
 
 class Movie(models.Model):
     slug = models.SlugField(max_length=200,unique=True)
@@ -48,7 +55,8 @@ class Movie(models.Model):
     published = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-
+    image = models.ImageField(upload_to='upload', null=True , blank=True)
+    image_preview = models.ManyToManyField(MovieImage,blank=True)
     actor = models.ManyToManyField(Actor, blank=True,help_text='นักแสดง')
     director = models.ManyToManyField(Director, blank=True,help_text='ผู้กำกับ')
     category = models.ManyToManyField(Category, blank=True)
@@ -61,6 +69,12 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.name
+
+    def show_image(self):
+        if self.image:
+            return format_html('<img src="' + self.image.url + '" height="200px">')
+        return ''
+    show_image.allow_tags = True
 
     def get_comment_count(self):
         return self.moviecomment_set.count()
@@ -77,3 +91,4 @@ class MovieComment(models.Model):
 
     def __str__(self):
         return self.comment
+
