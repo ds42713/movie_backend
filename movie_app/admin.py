@@ -14,8 +14,8 @@ class Movie_Admin(admin.ModelAdmin):
     search_fields = ['name','actor','director','film_company']
     prepopulated_fields = {'slug': ['name']}
     fieldsets = (
-        (None , {'fields':['name','slug','description','published','image']}),
-        ('Category',{'fields':['category','actor','director','film_company','image_preview']})
+        (None , {'fields':['name','slug','description','published','image','image_preview']}),
+        ('Category',{'fields':['category','actor','director','film_company']})
     )
     inlines = [ MovieTabularInline ]
 
