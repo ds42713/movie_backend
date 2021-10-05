@@ -7,6 +7,8 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register('movie-viewsets', views.MovieViewsets)
+router.register('allmovie-viewsets',views.MovieViewset)
+
 urlpatterns = [
     path('hello/', views.hello),
     #path('api/movie/get',views.api_get_movie),

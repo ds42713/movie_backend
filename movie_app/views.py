@@ -1,3 +1,4 @@
+from django.db.models import query
 from movie_app import serializers
 from movie_app.models import Movie
 from django.shortcuts import render
@@ -21,3 +22,7 @@ class MovieViewsets(viewsets.ReadOnlyModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
 
+class MovieViewset(viewsets.ModelViewSet):
+    queryset = Movie.objects.all()
+    serializers_class = MovieSerializer
+    
