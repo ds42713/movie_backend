@@ -2,6 +2,7 @@ from movie_app import serializers
 from movie_app.models import Movie
 from django.shortcuts import render
 from django.http import HttpResponse
+from rest_framework import viewsets
 
 def hello(request):
     return HttpResponse('hello')
@@ -13,16 +14,10 @@ from rest_framework.decorators import api_view
 from .serializers import *
 #######################
 
-@api_view(['GET'])
-def api_get_movie(request):
-    movie = Movie.objects.all()
-    if request.method == 'GET':
-        serializer = MovieSerializer(movie,many=True)
-        return Response(serializer.data)
 
-@api_view(['GET'])
-def api_get_movie_id(request,pid):
-    movie = Movie.objects.filter(id=pid)
-    if request.method == 'GET':
-        serializer = MovieSerializer(movie,many=True)
-        return Response(serializer.data)
+
+
+class MovieViewsets(viewsets.ReadOnlyModelViewSet): 
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+
