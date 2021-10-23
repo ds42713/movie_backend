@@ -4,6 +4,8 @@ from movie_app.models import Movie
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter 
 
 ######### API  #######
 from rest_framework import status
@@ -19,8 +21,14 @@ class MovieGenericsView(generics.ListCreateAPIView):
 class MovieItemView(generics.RetrieveAPIView):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer  
-    lookup_field = 'slug'
+    lookup_field = 'id'
 
 class CategoryAPIView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+class MovieViewsets(viewsets.ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+    filter_backends = [SearchFilter ]
+    search_fields = ['$name']
